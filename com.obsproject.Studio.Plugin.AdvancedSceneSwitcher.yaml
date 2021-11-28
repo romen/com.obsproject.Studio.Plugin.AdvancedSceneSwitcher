@@ -1,4 +1,4 @@
-id: com.obsproject.Studio.Plugin.InputOverlay
+id: com.obsproject.Studio.Plugin.AdvancedSceneSwitcher
 branch: stable
 runtime: com.obsproject.Studio
 runtime-version: stable
@@ -7,25 +7,23 @@ build-extension: true
 separate-locales: false
 appstream-compose: false
 build-options:
-  prefix: /app/plugins/InputOverlay
+  prefix: /app/plugins/AdvancedSceneSwitcher
 modules:
-  - name: libuiohook
-    buildsystem: autotools
-    sources:
-      - type: git
-        url: https://github.com/kwhat/libuiohook.git
-        commit: 57630b7036becb8fa8ed65903ae994eda50a72f6
-  - name: input-overlay
+  - name: advanced-scene-switcher
     buildsystem: cmake-ninja
     config-opts:
+      - -DBUILD_OUT_OF_TREE=1
       - -DCMAKE_BUILD_TYPE=Release
       - -DLIBOBS_INCLUDE_DIR=/app/include/obs
+      - -DLIBOBS_LIB=/app/lib/libobs.so
+      - -DLIBOBS_FRONTEND_INCLUDE_DIR=/app/include/obs
+      - -DLIBOBS_FRONTEND_API_LIB=/app/lib/libobs-frontend-api.so
     post-install:
       - install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo ${FLATPAK_ID}.metainfo.xml
       - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}
     sources:
       - type: git
-        url: https://github.com/univrsal/input-overlay.git
-        commit: 94019421573978924d247e7b4a4a98c04441cd25
+        url: https://github.com/WarmUpTill/SceneSwitcher.git
+        commit: 5dfed8ac2ae27289d79f7900be460188aba747ab
       - type: file
-        path: com.obsproject.Studio.Plugin.InputOverlay.metainfo.xml
+        path: com.obsproject.Studio.Plugin.AdvancedSceneSwitcher.metainfo.xml
